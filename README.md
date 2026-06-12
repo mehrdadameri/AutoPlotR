@@ -89,7 +89,7 @@ result <- ap_plot(mtcars, plan = plan, output_dir = "plots")
 ``` r
 library(AutoPlotR)
 
-ap_live(mtcars)
+ap_live(root = "/path-to-your-working-directory")
 ```
 
 Browser mode runs in a background R process so the R console remains available. If you create or load new data in RStudio while the chat is running, push it to the chat session with:
