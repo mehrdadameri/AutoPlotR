@@ -1,0 +1,37 @@
+name: AutoPlotR
+version: 1
+autonomy_level: partial
+environment:
+  - R session
+  - user-selected working directory
+  - local tabular data files
+sensors:
+  - text_request
+  - data_profile
+  - file_listing
+  - live_chat_history
+tools:
+  - list_files
+  - load_data
+  - detect_data
+  - use_data
+  - profile
+  - plot
+outputs:
+  - ggplot_object
+  - png_plot
+  - editable_r_script
+  - plan_json
+  - profile_json
+  - diagnostics_json
+  - manifest_json
+  - trace_jsonl
+guardrails:
+  - Generated plotting code is parsed before execution.
+  - Dangerous R calls such as system, source, file deletion, installation, and arbitrary evaluation are blocked.
+  - Live file loading is restricted to the configured root directory.
+  - Low-confidence or ambiguous plans should ask for clarification before rendering.
+reproducibility:
+  - Save data, profile, plan, script, diagnostics, manifest, and trace artifacts together.
+  - Record model configuration, prompt hashes, package versions, and session information.
+  - Prefer deterministic structured calls with temperature 0.

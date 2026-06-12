@@ -1,0 +1,33 @@
+Package: AutoPlotR
+Title: An AI agent for visualization in R
+Version: 0.0.0.9000
+Authors@R: 
+    person("Mehrdad", "Ameri", email = "mehrddameri@gmail.com", role = c("aut", "cre"))
+Author: Mehrdad Ameri [aut, cre]
+Maintainer: Mehrdad Ameri <mehrddameri@gmail.com>
+Description: This agent uses large language models to load data, propose appropriate visualizations, generate editable scripts, render plots, and save reproducible artifacts from natural language requests.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends:
+    R (>= 4.4)
+Imports:
+    ellmer (>= 0.4.0),
+    ggplot2,
+    glue,
+    jsonlite,
+    rlang,
+    S7,
+    yaml
+Suggests:
+    callr,
+    knitr,
+    readxl,
+    rmarkdown,
+    rstudioapi,
+    shiny,
+    testthat (>= 3.0.0),
+    withr
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3

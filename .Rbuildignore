@@ -1,0 +1,14 @@
+^AutoPlotR\.Rproj$
+^\.Rproj\.user$
+^\.DS_Store$
+^\.gitignore$
+^\.claude$
+^\.Rhistory$
+^source r package$
+^AutoDEG$
+^r-pkgs-main$
+^ai-agent-dev-guide\.md$
+^AutoPlotR\.Rcheck$
+^\.\.Rcheck$
+^AutoPlotR_[0-9.]+\.tar\.gz$
+^\.r-test-lib$

@@ -1,0 +1,59 @@
+version: "2026.06.12"
+core:
+  labels:
+    title: "Use concise titles that describe the relationship, comparison, or distribution."
+    axes: "Use readable axis labels and include units when known."
+    legend: "Use legend titles that match the encoded variable."
+  accessibility:
+    palette: "Use colorblind-safe palettes by default."
+    redundant_encoding: "Do not rely on color alone when shape, linetype, facetting, or labels can clarify meaning."
+  data_truth:
+    transformations: "Record filtering, aggregation, binning, ordering, and scale changes in the plan."
+    missing_values: "Make missing-value handling explicit when it affects the plotted data."
+    no_invention: "Do not invent columns, units, thresholds, statistical tests, sample sizes, or group meanings."
+    assumptions: "State assumptions when a request is underspecified but still has a valid standard interpretation."
+  code:
+    editable: "Generate plain, editable R code that creates a ggplot object named p."
+    reproducible: "Save data, plan, script, and plot artifacts together."
+    validation: "Generated code should validate required columns before plotting."
+    safety: "Generated code must not install packages, delete files, download data, change working directories, or call shell/system functions."
+defaults:
+  package: "ggplot2"
+  theme: "theme_minimal"
+  palette: "okabe_ito"
+  width: 7
+  height: 5
+  dpi: 300
+  base_size: 12
+plot_types:
+  scatter:
+    variables: "Requires x and y numeric or ordered variables."
+    overplotting: "overplotting: use alpha and moderate point size; consider jitter or hex/bin summaries for dense data."
+    encoding: "Use color or shape for one grouping variable when it improves interpretation."
+  line:
+    variables: "Requires ordered x and numeric y."
+    ordering: "Sort by x within groups before plotting."
+    encoding: "Use linetype or color for groups when multiple series are shown."
+  bar:
+    variables: "Use categorical x for counts or x plus numeric y for aggregated comparisons."
+    aggregation: "State the summary statistic when y is aggregated."
+    labels: "Keep category labels readable; flip coordinates for long labels."
+  histogram:
+    variables: "Requires one numeric x variable."
+    bins: "Choose a sensible bin count and record it."
+    encoding: "Avoid stacking too many groups; prefer facets for multiple groups."
+  density:
+    variables: "Requires one numeric x variable."
+    encoding: "Use alpha for overlapping groups and avoid too many groups."
+  boxplot:
+    variables: "Requires categorical x and numeric y."
+    encoding: "Show outliers unless the user asks otherwise."
+  violin:
+    variables: "Requires categorical x and numeric y."
+    encoding: "Use violin plots when distribution shape matters; combine with boxplot only when helpful."
+  tile:
+    variables: "Requires x, y, and fill variables."
+    encoding: "Use a perceptually ordered fill scale for numeric fill values."
+  heatmap:
+    variables: "Requires x, y, and fill variables."
+    encoding: "Use a perceptually ordered fill scale for numeric fill values."
