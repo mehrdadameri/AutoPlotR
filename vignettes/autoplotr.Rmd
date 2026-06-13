@@ -9,33 +9,30 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```r
+``` r
 library(AutoPlotR)
 ```
 
 ## Overview
 
-AutoPlotR is an AI agent for visualization in R. It uses large language models
-(via the [ellmer](https://ellmer.tidyverse.org) package) to turn natural language
-requests into ggplot2 visualizations through a two-agent pipeline:
+AutoPlotR is an AI agent for visualization in R. It uses large language models (via the [ellmer](https://ellmer.tidyverse.org) package) to turn natural language requests into ggplot2 visualizations through a two-agent pipeline:
 
-1. **Planner Agent** — inspects your data and produces a validated visualization plan
-2. **Plotter Agent** — generates editable R code from the plan and renders the plot
+1.  **Planner Agent** — inspects your data and produces a validated visualization plan
+2.  **Plotter Agent** — generates editable R code from the plan and renders the plot
 
-Every run produces a reproducible artifact bundle: PNG plot, editable R script,
-input data snapshot, plan JSON, diagnostics, manifest with hashes, and a trace log.
+Every run produces a reproducible artifact bundle: PNG plot, editable R script, input data snapshot, plan JSON, diagnostics, manifest with hashes, and a trace log.
 
 ## Setup
 
 Configure a provider and API key. Run the interactive wizard:
 
-```r
+``` r
 ap_setup()
 ```
 
 Or configure non-interactively:
 
-```r
+``` r
 ap_setup(
   provider = "openai",
   model    = "gpt-4o-mini",
@@ -46,7 +43,7 @@ ap_setup(
 
 To list all providers ellmer supports:
 
-```r
+``` r
 ap_llm_providers()
 ```
 
@@ -54,12 +51,12 @@ ap_llm_providers()
 
 `ap_plot()` is the one-call entry point. Give it a data frame and a description:
 
-```r
+``` r
 #| eval: FALSE
 result <- ap_plot(mtcars, "scatter plot of mpg vs wt, colored by cyl")
 ```
 
-```r
+``` r
 #| eval: FALSE
 print(result)
 #> AutoPlotR plot result
@@ -69,7 +66,7 @@ print(result)
 
 The output directory contains everything needed to reproduce or edit the plot:
 
-```r
+``` r
 #| eval: FALSE
 list.files("autoplotr-output", recursive = TRUE)
 #> data.rds  plan.json  profile.json  autoplotr-plot.png
@@ -80,7 +77,7 @@ list.files("autoplotr-output", recursive = TRUE)
 
 For more control, generate a plan first, review it, then plot:
 
-```r
+``` r
 #| eval: FALSE
 plan <- ap_plan(mtcars, "boxplot of mpg by cylinder count")
 print(plan)
@@ -92,7 +89,7 @@ print(plan)
 
 Inspect and modify the plan:
 
-```r
+``` r
 #| eval: FALSE
 plan$labels$title  <- "Fuel Efficiency by Cylinder Count"
 plan$theme$base_size <- 14
@@ -100,51 +97,48 @@ plan$theme$base_size <- 14
 
 Then render:
 
-```r
+``` r
 #| eval: FALSE
 result <- ap_plot(mtcars, plan = plan)
 ```
 
 ## Live Chat Mode
 
-Launch an interactive chat session. The agent has six tools: list files,
-load data, detect data frames in your R environment, select data, profile
-columns, and generate plots.
+Launch an interactive chat session. The agent has six tools: list files, load data, detect data frames in your R environment, select data, profile columns, and generate plots.
 
-```r
+``` r
 #| eval: FALSE
-ap_live(mtcars)
+ap_live(root = "/path-to-your-working-directory")
 ```
 
 The agent responds to conversation. Example prompts:
 
-- "Show me a scatter plot of mpg vs hp"
-- "Color by number of cylinders"
-- "Use a dark theme"
-- "Add a trend line"
+-   "Show me a scatter plot of mpg vs hp"
+-   "Color by number of cylinders"
+-   "Use a dark theme"
+-   "Add a trend line"
 
 ### Non-blocking (Background) Mode
 
 Run the chat in a background process. Your R console stays free:
 
-```r
+``` r
 #| eval: FALSE
-ap_live(mtcars, launch_browser = TRUE)
+ap_live(launch_browser = TRUE)
 ```
 
 After the chat ends, fetch modified data back:
 
-```r
+``` r
 #| eval: FALSE
 ap_fetch_data()
 ```
 
 ## Customizing Visualization Rules
 
-AutoPlotR ships with visualization design rules. You can override them per-user
-or per-project:
+AutoPlotR ships with visualization design rules. You can override them per-user or per-project:
 
-```r
+``` r
 # Package rules (read-only)
 ap_viz_rules_path("package")
 
@@ -157,17 +151,16 @@ ap_viz_rules_path("project")
 
 Load rules for a specific plot type:
 
-```r
+``` r
 rules <- ap_load_viz_rules("scatter")
 str(rules$plot_types$scatter)
 ```
 
 ## Profiling Data
 
-The `ap_profile_data()` function produces a compact summary used internally
-by both agents:
+The `ap_profile_data()` function produces a compact summary used internally by both agents:
 
-```r
+``` r
 profile <- ap_profile_data(mtcars, max_sample_rows = 3)
 profile$rows        # 32
 profile$columns     # 11
@@ -179,42 +172,27 @@ profile$column_profiles$mpg
 
 Configuration is stored in YAML. Find the path:
 
-```r
+``` r
 ap_config_path()
 # ~/.config/AutoPlotR/config.yml
 ```
 
 Load and inspect:
 
-```r
+``` r
 cfg <- ap_load_config()
 names(cfg)  # version, project, llm, agents
 ```
-
-## Supported Plot Types
-
-| Plot Type  | Required Mappings      |
-|------------|------------------------|
-| scatter    | x (numeric), y (numeric) |
-| line       | x (ordered), y (numeric) |
-| bar        | x (categorical)          |
-| histogram  | x (numeric)              |
-| density    | x (numeric)              |
-| boxplot    | x (categorical), y (numeric) |
-| violin     | x (categorical), y (numeric) |
-| tile       | x, y, fill               |
-| heatmap    | x, y, fill               |
-
 ## Reproducibility
 
 Every `ap_plot()` run writes a `manifest.json` with:
 
-- Run ID and timestamp
-- LLM provider, model, temperature
-- Input data hash (MD5)
-- Prompt hashes (planner + plotter)
-- Artifact hashes (plot, script, data, plan)
-- Package versions (AutoPlotR, ellmer, ggplot2)
-- Full `sessionInfo()` output
+-   Run ID and timestamp
+-   LLM provider, model, temperature
+-   Input data hash (MD5)
+-   Prompt hashes (planner + plotter)
+-   Artifact hashes (plot, script, data, plan)
+-   Package versions (AutoPlotR, ellmer, ggplot2)
+-   Full `sessionInfo()` output
 
 And a `trace.jsonl` file logging every pipeline event with timestamps.

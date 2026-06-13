@@ -1,6 +1,6 @@
 Package: AutoPlotR
-Title: An AI agent for visualization in R
-Version: 0.0.0.9000
+Title: An AI Agent for Visualization in R
+Version: 0.1.0
 Authors@R: 
     person("Mehrdad", "Ameri", email = "mehrddameri@gmail.com", role = c("aut", "cre"))
 Author: Mehrdad Ameri [aut, cre]
